@@ -1,30 +1,63 @@
-students = []
+from database import *
 
-def add_student():
-    name = input("Enter student name: ")
-    students.append(name)
-    print("Student added successfully!")
-
-def view_students():
-    if not students:
-        print("No students found.")
-    else:
-        for i, s in enumerate(students, 1):
-            print(i, s)
-
-while True:
-    print("\n1. Add Student")
+def menu():
+    print("\n===== Student Management System =====")
+    print("1. Add Student")
     print("2. View Students")
-    print("3. Exit")
+    print("3. Search Student")
+    print("4. Update Student")
+    print("5. Delete Student")
+    print("6. Exit")
 
-    choice = input("Enter choice: ")
+def main():
+    create_table()
 
-    if choice == "1":
-        add_student()
-    elif choice == "2":
-        view_students()
-    elif choice == "3":
-        print("Goodbye!")
-        break
-    else:
-        print("Invalid choice")
+    while True:
+        menu()
+        choice = input("Enter choice: ")
+
+        if choice == "1":
+            name = input("Name: ")
+            age = input("Age: ")
+            course = input("Course: ")
+            email = input("Email: ")
+
+            add_student(name, age, course, email)
+            print("Student added successfully!")
+
+        elif choice == "2":
+            students = get_students()
+            print("\n--- Student List ---")
+            for student in students:
+                print(student)
+
+        elif choice == "3":
+            name = input("Enter name to search: ")
+            students = search_student(name)
+            for student in students:
+                print(student)
+
+        elif choice == "4":
+            id = input("Enter student ID: ")
+            name = input("New name: ")
+            age = input("New age: ")
+            course = input("New course: ")
+            email = input("New email: ")
+
+            update_student(id, name, age, course, email)
+            print("Student updated successfully!")
+
+        elif choice == "5":
+            id = input("Enter student ID to delete: ")
+            delete_student(id)
+            print("Student deleted successfully!")
+
+        elif choice == "6":
+            print("Thank you!")
+            break
+
+        else:
+            print("Invalid choice!")
+
+if __name__ == "__main__":
+    main()
